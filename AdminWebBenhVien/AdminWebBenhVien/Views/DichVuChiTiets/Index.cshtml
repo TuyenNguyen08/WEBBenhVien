@@ -1,0 +1,92 @@
+﻿@model IEnumerable<AdminWebBenhVien.EfModels.DichVuChiTiet>
+@using AdminWebBenhVien.Controllers
+@using AdminWebBenhVien.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Danh sách dịch vụ<span style="color:orange"></span></h1>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <kendo-grid name="gridDichVuChiTiet" height="550" resizable="true">
+                    <datasource type="DataSourceTagHelperType.Ajax" server-operation="false" page-size="20">
+                        <transport>
+                            <read url="@Url.Action(nameof(DichVuChiTietsController.DichVuChiTiet_Read))" type="get" />
+                        </transport>
+                        <schema>
+                            <model id="@nameof(DichVuIndexViewModel.Id)">
+                                <fields>
+                                    <field name="@nameof(DichVuIndexViewModel.Id)" />
+                                    <field name="@nameof(DichVuIndexViewModel.TenLoaiId)" />
+                                    <field name="@nameof(DichVuIndexViewModel.TenLoai)" />
+                                    <field name="@nameof(DichVuIndexViewModel.TieuDe)" />
+                                    <field name="@nameof(DichVuIndexViewModel.GioiThieu)" />
+                                    <field name="@nameof(DichVuIndexViewModel.Xem)" type="number" />
+                                    <field name="@nameof(DichVuIndexViewModel.NgonNguId)" />
+                                    <field name="@nameof(DichVuIndexViewModel.NgonNgu)" />
+                                    <field name="@nameof(DichVuIndexViewModel.NgayTao)" type="date" />
+                                    <field name="@nameof(DichVuIndexViewModel.NgaySua)" type="date" />
+                                    <field name="@nameof(DichVuIndexViewModel.NguoiSuaId)" />
+                                    <field name="@nameof(DichVuIndexViewModel.NguoiSua)" />
+                                </fields>
+                            </model>
+                        </schema>
+                    </datasource>
+                    <groupable enabled="true" />
+                    <sortable enabled="true" />
+                    <filterable enabled="true" />
+                    <scrollable enabled="true" />
+                    <pageable button-count="5" refresh="true" page-sizes="new int[] { 10, 20, 30, 40, 50, 100 }">
+                    </pageable>
+                    <filterable enabled="true" />
+                    <columns>
+                        <column title="Thao tác" width="100" html-attributes='new Dictionary<string, object>{ ["class"] = "bv-column-align-center" }'>
+                            <commands>
+                                <column-command text="Sửa" name="btnCapNhat1" class-name="k-primary" click="btnCapNhat_Click"></column-command>
+                            </commands>
+                        </column>
+                        <column field="@nameof(DichVuIndexViewModel.Id)" title="ID" width="100" html-attributes='new Dictionary<string, object>{ ["class"] = "bv-column-align-center" }' />
+                        <column field="@nameof(DichVuIndexViewModel.TenLoai)" title="Tên loại" width="300" />
+                        <column field="@nameof(DichVuIndexViewModel.TieuDe)" title="Tiêu đề" width="300" />
+                        <column field="@nameof(DichVuIndexViewModel.GioiThieu)" title="Giới thiệu" width="300" html-attributes='new Dictionary<string, object>{ ["class"] = "bv-column-ellipsis" }' />
+                        <column field="@nameof(DichVuIndexViewModel.Xem)" title="Lượt xem" width="100" format="{0:N0}" html-attributes='new Dictionary<string, object>{ ["class"] = "bv-column-align-right" }' />
+                        <column field="@nameof(DichVuIndexViewModel.NgonNgu)" title="Ngôn ngữ" width="100" />
+                        <column field="@nameof(DichVuIndexViewModel.NgayTao)" title="Ngày tạo" width="150" format="{0:dd/MM/yy HH:mm:ss}" html-attributes='new Dictionary<string, object>{ ["class"] = "bv-column-align-center" }' />
+                        <column field="@nameof(DichVuIndexViewModel.NgaySua)" title="Ngày sửa" width="150" format="{0:dd/MM/yy HH:mm:ss}" html-attributes='new Dictionary<string, object>{ ["class"] = "bv-column-align-center" }' />
+                        <column field="@nameof(DichVuIndexViewModel.NguoiSua)" title="Người sửa" width="200" />
+                        <column title="Thao tác" width="100" html-attributes='new Dictionary<string, object>{ ["class"] = "bv-column-align-center" }'>
+                            <commands>
+                                <column-command text="Sửa" name="btnCapNhat2" class-name="k-primary" click="btnCapNhat_Click"></column-command>
+                            </commands>
+                        </column>
+                    </columns>
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        var urlCapNhat = "@Url.Action(nameof(DichVuChiTietsController.Edit), new { id = Constants.PARAM_DICH_VU_ID })";
+
+        function btnCapNhat_Click(e) {
+
+            e.preventDefault();
+
+            var kendoGrid = $("#gridDichVuChiTiet").data("kendoGrid");
+            var tr = $(e.currentTarget).closest("tr");
+            var data = kendoGrid.dataItem(tr);
+
+            var url = urlCapNhat.replace("@Constants.PARAM_DICH_VU_ID", data.id);
+            window.open(url, "_blank");
+        };
+    </script>
+}

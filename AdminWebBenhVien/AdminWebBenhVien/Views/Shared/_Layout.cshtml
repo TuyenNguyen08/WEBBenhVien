@@ -1,0 +1,246 @@
+﻿@using AdminWebBenhVien.Controllers
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Admin Quân Dân Y Miền Đông</title>
+
+    <link href="~/lib/kendo-2019.1/kendo.common-material.min.css" rel="stylesheet" />
+    <link href="~/lib/kendo-2019.1/kendo.mobile.all.min.css" rel="stylesheet" />
+    <link href="~/lib/kendo-2019.1/kendo.material.min.css" rel="stylesheet" />
+
+    <script src="~/lib/kendo-2019.1/jquery.min.js"></script>
+    <script src="~/lib/kendo-2019.1/jszip.min.js"></script>
+    <script src="~/lib/kendo-2019.1/kendo.all.min.js"></script>
+    <script src="~/lib/kendo-2019.1/kendo.aspnetmvc.min.js"></script>
+
+    <!-- Bootstrap Core CSS -->
+    <!-- MetisMenu CSS -->
+    <link href="~/lib/bootstrap/dist/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/metisMenu/metisMenu.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="~/dist/css/sb-admin-2.css" rel="stylesheet" />
+    <!-- Morris Charts CSS -->
+    <link href="~/lib/morrisjs/morris.css" rel="stylesheet" />
+    <!-- Custom Fonts -->
+    <link href="~/lib/fontawesome-pro-5.6.3-web/css/all.min.css" rel="stylesheet" />
+    
+    <link href="~/css/admin.css" rel="stylesheet" />
+
+    @RenderSection("css", required: false)
+    <style>
+        #textColorWhite {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;background-color:#3f51b5;">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" id="textColorWhite"> Admin Quân Dân Y Miền Đông</a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw" id="textColorWhite"></i> <i class="fa fa-caret-down" id="textColorWhite"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li>
+                        <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <ul class="nav navbar-top-links navbar-right">
+            <li><a id="textColorWhite">Nguyễn Thị Cẩm Tuyên</a></li>
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <img src="@Url.Content("~/images/testlogo.png")" height="40" style="margin-left:40px" />
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a asp-action="@nameof(HomeController.Index)"
+                           asp-controller="@nameof(HomeController).Replace("Controller","")"><i class="fa fa-home fa-fw"></i>Trang chủ</a>
+                    </li>
+                    <li>
+                        <a>Bài viết<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a asp-action="@nameof(GioiThieuChiTietsController.Index)"
+                                   asp-controller="@nameof(GioiThieuChiTietsController).Replace("Controller","")"><i class="fa fa-briefcase fa-fw"></i>Giới thiệu tổng quan</a>
+                            </li>
+                            <li>
+                                <a asp-action="@nameof(KhoaPhongsController.Index)"
+                                   asp-controller="@nameof(KhoaPhongsController).Replace("Controller","")"><i class="fa fa-briefcase fa-fw"></i>Giới thiệu khoa ban</a>
+                            </li>
+                            <li>
+                                <a asp-action="@nameof(DichVuChiTietsController.Index)"
+                                   asp-controller="@nameof(DichVuChiTietsController).Replace("Controller","")"><i class="fa fa-flag   fa-fw"></i>Dịch vụ</a>
+                            </li>
+                            <li>
+                                <a asp-action="@nameof(NoiDungTinhChiTietsController.Index)"
+                                   asp-controller="@nameof(NoiDungTinhChiTietsController).Replace("Controller","")"><i class="fa fa-user fa-fw"></i>Bệnh nhân</a>
+                            </li>
+                            <li>
+                                <a asp-action="@nameof(TinTucsController.Index)"
+                                   asp-controller="@nameof(TinTucsController).Replace("Controller","")"><i class="fa fa-plus-square fa-fw"></i>Tin Tức</a>
+                            </li>
+                            <li>
+                                <a asp-action="@nameof(HoatDongsController.Index)"
+                                   asp-controller="@nameof(HoatDongsController).Replace("Controller","")"><i class="fa fa-plus-circle fa-fw"></i>Hoạt động</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-plus-circle fa-fw"></i>Tuyển dụng</a>
+                            </li>
+                            <li>
+                                <a asp-action="@nameof(EventsController.Index)"
+                                   asp-controller="@nameof(EventsController).Replace("Controller","")"><i class="fa fa-sign-in fa-fw"></i>Sự kiện-Quảng cáo</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-plus-circle fa-fw"></i>Lịch khám</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a asp-action=""
+                           asp-controller=""
+                           asp-route-dotThauId=""><i class=""></i>Khách hàng<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-briefcase fa-fw"></i>Hỏi đáp sức khỏe</a>
+                            </li>
+                            <li>
+                                <a asp-action="@nameof(HenKhamBenhsController.Index)"
+                                   asp-controller="@nameof(HenKhamBenhsController).Replace("Controller","")"><i class="fa fa-briefcase fa-fw"></i>Đặt hẹn lịch khám</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-flag   fa-fw"></i>Phản hồi khách hàng</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-user fa-fw"></i>Liên hệ khách hàng</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-plus-square fa-fw"></i>Hồ sơ bệnh án online</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a asp-action=""
+                           asp-controller=""
+                           asp-route-dotThauId=""><i class=""></i>Thư viện<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a asp-action="@nameof(SlideShowsController.Index)"
+                                   asp-controller="@nameof(SlideShowsController).Replace("Controller","")"><i class="fa fa-briefcase fa-fw"></i>Slideshow trang chủ</a>
+                            </li>
+                            <li>
+                                <a asp-action="@nameof(VideosController.Index)"
+                                   asp-controller="@nameof(VideosController).Replace("Controller","")"><i class="fa fa-briefcase fa-fw"></i>Video</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a asp-action=""
+                           asp-controller=""
+                           asp-route-dotThauId=""><i class=""></i>Quản trị<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-briefcase fa-fw"></i>Quản lý người dùng</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-briefcase fa-fw"></i>Phân quyền sử dụng</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-flag   fa-fw"></i>Tùy chỉnh giao diện</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-user fa-fw"></i>Hình ảnh tiêu biểu trang</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-plus-square fa-fw"></i>Thông báo-Văn bản</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a asp-action=""
+                           asp-controller=""
+                           asp-route-dotThauId=""><i class=""></i>Hệ thống<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-briefcase fa-fw"></i>Lỗi hệ thống</a>
+                            </li>
+                            <li>
+                                <a asp-action=""
+                                   asp-controller=""><i class="fa fa-briefcase fa-fw"></i>Backup & Restore database</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+
+    @RenderBody()
+
+    <br />
+
+    <footer class="footer-distributed" style="background-color:#3f51b5; text-align:center; font-size:15px;height:50px;">
+        <p style="padding-top:15px" id="textColorWhite">Bệnh viện Quân Dân Y Miền Đông &copy; 2019</p>
+    </footer>
+
+    @RenderSection("scripts", required: false)
+
+    <script src=@Url.Content("~/lib/bootstrap/dist/js/bootstrap.min.js")></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src=@Url.Content("~/lib/metisMenu/metisMenu.min.js")></script>
+    <script src=@Url.Content("~/dist/js/sb-admin-2.js")></script>
+
+
+
+</body>
+
+</html>
+

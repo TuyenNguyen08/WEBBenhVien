@@ -1,0 +1,157 @@
+﻿@using AdminWebBenhVien.Models
+@using AdminWebBenhVien.EfModels
+
+@model HenKhamBenhCreateViewModel
+
+@section css{
+    <link href="~/css/Create.css" rel="stylesheet" />
+}
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Đặt lịch khám<span style="color:orange"></span></h1>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <form asp-action="Edit" method="post">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#paneGioiThieu" aria-expanded="false">Thông tin</a>
+                            </h4>
+                        </div>
+                        <div id="paneGioiThieu" class="collapse in" aria-expanded="false">
+                            <br />
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-success" />
+                            </div>
+                            <div class="panel-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="Id" />
+                                <input type="hidden" asp-for="BacSi" />
+                                <div class="form-group">
+                                    <label asp-for="HoVaTen" class="control-label">Họ và tên</label>
+                                    <input asp-for="HoVaTen" class="form-control" />
+                                    <span asp-validation-for="HoVaTen" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="NamSinhId" class="control-label">Năm sinh</label>
+                                    <kendo-dropdownlist for="NamSinhId"
+                                                        option-label="-- Chọn năm sinh --"
+                                                        bind-to="@((List<NamSinh>)ViewBag.ListNamSinh)"
+                                                        datatextfield="@nameof(NamSinh.Nam)"
+                                                        datavaluefield="@nameof(NamSinh.Id)"
+                                                        value="@Model.NamSinhId" />
+                                    <span asp-validation-for="NamSinhId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="GioiTinh" class="control-label">Giới tính</label>
+                                    <select asp-for="GioiTinh" class="form-control" asp-items="ViewBag.GioiTinh">
+                                        <option value="False">Nữ</option>
+                                        <option value="True">Nam</option>
+                                    </select>
+                                    <span asp-validation-for="GioiTinh" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="ChuyenKhoaId" class="control-label">Chuyên khoa</label>
+                                    <kendo-dropdownlist for="ChuyenKhoaId"
+                                                        option-label="-- Chọn chuyên khoa --"
+                                                        bind-to="@((List<PhongKham>)ViewBag.ListChuyenKhoa)"
+                                                        datatextfield="@nameof(PhongKham.TenPhongKham)"
+                                                        datavaluefield="@nameof(PhongKham.Id)" />
+                                    <span asp-validation-for="ChuyenKhoaId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="BacSiId" class="control-label">Bác sĩ</label>
+                                    <kendo-dropdownlist for="BacSiId"
+                                                        option-label="-- Chọn bác sĩ --"
+                                                        bind-to="@((List<DanhMucBacSi>)ViewBag.ListBacSi)"
+                                                        datatextfield="@nameof(DanhMucBacSi.TenBacSi)"
+                                                        datavaluefield="@nameof(DanhMucBacSi.Id)" />
+                                    <span asp-validation-for="BacSiId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="NgayHen" class="control-label">Ngày hẹn</label>
+                                    <kendo-datepicker name='datepicker'
+                                                      for="NgayHen"
+                                                      style='width: 100%;' />
+                                    <span asp-validation-for="NgayHen" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="GioHenId" class="control-label">Giờ hẹn</label>
+                                    <kendo-dropdownlist for="GioHenId"
+                                                        option-label="-- Chọn giờ hẹn --"
+                                                        bind-to="@((List<GioKham>)ViewBag.ListGioHen)"
+                                                        datatextfield="@nameof(GioKham.Gio)"
+                                                        datavaluefield="@nameof(GioKham.Id)" />
+                                    <span asp-validation-for="GioHenId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="MoTaTrieuChung" class="control-label">Triệu chứng</label>
+                                    <input asp-for="MoTaTrieuChung" class="form-control" />
+                                    <span asp-validation-for="MoTaTrieuChung" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="DiaChiEmail" class="control-label">Email</label>
+                                    <input asp-for="DiaChiEmail" class="form-control" />
+                                    <span asp-validation-for="DiaChiEmail" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="TinhTrangHonNhanId" class="control-label">Tình trạng hôn nhân</label>
+                                    <kendo-dropdownlist for="TinhTrangHonNhanId"
+                                                        option-label="-- Chọn tình trạng hôn nhân --"
+                                                        bind-to="@((List<TinhTrangHonNhan>)ViewBag.ListTinhTrangHonNhan)"
+                                                        datatextfield="@nameof(TinhTrangHonNhan.TinhTrang)"
+                                                        datavaluefield="@nameof(TinhTrangHonNhan.Id)" />
+                                    <span asp-validation-for="TinhTrangHonNhanId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="QuocTichId" class="control-label">Quốc tịch</label>
+                                    <kendo-dropdownlist for="QuocTichId"
+                                                        option-label="-- Chọn quốc tịch --"
+                                                        bind-to="@((List<QuocTich>)ViewBag.ListQuocTich)"
+                                                        datatextfield="@nameof(QuocTich.TenQuocGia)"
+                                                        datavaluefield="@nameof(QuocTich.Id)" />
+                                    <span asp-validation-for="QuocTichId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SoDienThoaiNha" class="control-label">Điện thoại nhà</label>
+                                    <input asp-for="SoDienThoaiNha" class="form-control" />
+                                    <span asp-validation-for="SoDienThoaiNha" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="SoDienThoaiDiDong" class="control-label">Di động</label>
+                                    <input asp-for="SoDienThoaiDiDong" class="form-control" />
+                                    <span asp-validation-for="SoDienThoaiDiDong" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="DiaChi" class="control-label">Địa chỉ</label>
+                                    <input asp-for="DiaChi" class="form-control" />
+                                    <span asp-validation-for="DiaChi" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="TrangThaiId" class="control-label">Trạng thái</label>
+                                    <kendo-dropdownlist for="TrangThaiId"
+                                                        option-label="-- Chọn trạng thái --"
+                                                        bind-to="@((List<TrangThai>)ViewBag.ListTrangThai)"
+                                                        datatextfield="@nameof(TrangThai.TenLoaiTrangThai)"
+                                                        datavaluefield="@nameof(TrangThai.Id)" />
+                                    <span asp-validation-for="TrangThaiId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-success" />
+                                <a asp-action="Index" class="btn btn-default">Trở về danh sách</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
